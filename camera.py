@@ -1,15 +1,20 @@
+import pygame
+
+
 class Camera:
-    def __init__(self, screen_width, screen_height, target):
-        self.screen_width = screen_width
-        self.screen_height = screen_height
-        self.target = target  # The player or object the camera follows
-        self.offset = pygame.Vector2(0, 0)
+    def __init__(self, width, height):
+        self.camera = pygame.Rect(0, 0, width, height)
+        self.camera_width = width
+        self.camera_height = height
 
-    def update(self):
-        # Update the camera's offset to follow the target (center the target on the screen)
-        self.offset.x = self.target.body.position.x - self.screen_width // 2
-        self.offset.y = self.target.body.position.y - self.screen_height // 2
+    def apply(self):
+        return self.camera.topleft
 
-    def apply(self, position):
-        # Apply the offset to the object's position before drawing it
-        return position - self.offset
+    def update(self, target):
+        x = -target.body.position.x + int(self.camera_width / 2)
+        y = -target.body.position.y + int(self.camera_height / 2)
+        x = min(0, x)
+        y = min(0, y)
+        x = max(-(self.camera.width - 800), x)
+        y = max(-(self.camera.height - 600), y)
+        self.camera = pygame.Rect(x, y, self.camera_width, self.camera_height)

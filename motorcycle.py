@@ -3,14 +3,12 @@ import pymunk
 from constants import *
 import math
 import random
+import game_object
 
-
-class Motorcycle:
+class Motorcycle(game_object.Game_object):
     def __init__(self, space):
-        self.x = 500
-        self.y = 500
-        self.initial_angle = 0
-
+        self.x = 10
+        self.y = 800
 
         self.body = pymunk.Body(1, pymunk.moment_for_box(1, (BLOCK_SIZE, BLOCK_SIZE)))
         self.body.position = (self.x, self.y)
@@ -40,17 +38,3 @@ class Motorcycle:
         self.body.velocity = (0, 0)
         self.body.angular_velocity = 0
         self.body.angle = 0
-
-
-    def draw(self, surface, camera_offset):
-
-        x = self.body.position.x - camera_offset
-        y = self.body.position.y - BLOCK_SIZE // 2
-
-        rect = (
-            x,
-            y,
-            BLOCK_SIZE,
-            BLOCK_SIZE
-        )
-        pygame.draw.rect(surface, (0, 0, 255), rect)

@@ -1,10 +1,12 @@
 import pygame
 import pymunk
 from constants import *
+import game_object
 
-
-class Ramp:
+class Ramp(game_object.Game_object):
     def __init__(self, x, y, space):
+        self.init_x = x
+        self.init_y = y
         self.pos = (x, y)
         self.vertices = [(-32, 0), (32, 32), (32, -32)]
 
@@ -20,21 +22,8 @@ class Ramp:
 
 
     def update(self, camera_offset):
-        x = self.body.position.x - camera_offset
+
+        x = int(self.body.position.x - camera_offset[0])
         y = self.body.position.y
         self.body.position = (x, y)
-
-
-
-    def draw(self, surface, camera_offset):
-
-        x = self.body.position.x - camera_offset
-        y = self.body.position.y - BLOCK_SIZE // 2
-
-        rect = (
-            x,
-            y,
-            BLOCK_SIZE,
-            BLOCK_SIZE
-        )
-        pygame.draw.rect(surface, (0, 0, 255), rect)
+        pygame.display.set_caption(str(self.body.position))

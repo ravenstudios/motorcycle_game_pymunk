@@ -3,6 +3,7 @@ import pymunk
 import pymunk.pygame_util
 import pygame
 
+import camera
 import motorcycle
 import walls
 import ramp
@@ -21,9 +22,10 @@ space = pymunk.Space()
 space.gravity = (0, 1000)  # Example for Earth-like gravity, adjust as needed
 
 
+camera = camera.Camera(GAME_WIDTH, GAME_HEIGHT)
 motorcycle = motorcycle.Motorcycle(space)
-wall = walls.Wall((0, GAME_HEIGHT - BLOCK_SIZE, GAME_WIDTH, GAME_HEIGHT - BLOCK_SIZE), space)
-ramp = ramp.Ramp(GAME_WIDTH // 2, GAME_HEIGHT - BLOCK_SIZE, space)
+wall = walls.Wall((-1000, GAME_HEIGHT - BLOCK_SIZE, GAME_WIDTH * 4, GAME_HEIGHT - BLOCK_SIZE), space)
+ramp = ramp.Ramp(GAME_WIDTH -100, GAME_HEIGHT - BLOCK_SIZE, space)
 
 
 
@@ -87,18 +89,18 @@ def draw():
 
     space.debug_draw(options)
 
-    camera_offset = motorcycle.body.position.x - GAME_WIDTH / 2
-
+    camera_offset = motorcycle.body.position.x - GAME_WIDTH // 2
+    # print(f"camera_offset:{camera_offset}")
     motorcycle.draw(surface, camera_offset)
-    ramp.draw(surface, camera_offset)
+    ramp.draw(surface, motorcycle)
     wall.draw(surface)
     pygame.display.update()
 
 
 
 def update(events):
-
-
+    camera.update(motorcycle)
+    ramp.update(camera.apply())
     motorcycle.update()
 
 

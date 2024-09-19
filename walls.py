@@ -2,36 +2,6 @@ import pygame
 import pymunk
 
 
-class Walls():
-
-
-    def __init__(self, surface, space):
-        self.GAME_WIDTH = surface.get_width()
-        self.GAME_HEIGHT = surface.get_height()
-        self.width = self.GAME_WIDTH * self.GAME_HEIGHT * 0.00001
-
-
-
-        self.left_wall = Wall((0, 0, self.width, self.GAME_HEIGHT), space)
-        self.right_wall = Wall((self.GAME_WIDTH - self.width, 0, self.width, self.GAME_HEIGHT), space)
-        self.top_wall = Wall((0, 0, self.GAME_WIDTH, self.width), space)
-        self.bottom_wall = Wall((0, self.GAME_HEIGHT - self.width, self.GAME_WIDTH, self.GAME_HEIGHT), space)
-
-
-
-
-    def screen_resize(self, surface, space):
-        self.GAME_WIDTH = surface.get_width()
-        self.GAME_HEIGHT = surface.get_height()
-        self.width = self.GAME_WIDTH * self.GAME_HEIGHT * 0.00001
-        print(self.GAME_HEIGHT)
-        self.left_wall.screen_resize((self.width // 2, self.GAME_HEIGHT // 2), (self.width, self.GAME_HEIGHT), space)
-        self.right_wall.screen_resize((self.GAME_WIDTH - self.width // 2, self.GAME_HEIGHT // 2), (self.width, self.GAME_HEIGHT), space)
-        self.top_wall.screen_resize((self.GAME_WIDTH // 2, self.width // 2), (self.GAME_WIDTH, self.width), space)
-        self.bottom_wall.screen_resize((self.GAME_WIDTH // 2, self.GAME_HEIGHT - self.width // 2), (self.GAME_WIDTH, self.width), space)
-
-
-
 class Wall:
     def __init__(self, rect, space):
         self.x = rect[0]
@@ -63,7 +33,7 @@ class Wall:
 
     def draw(self, surface):
 
-        
+
 
         rect = (
             self.body.position.x - self.width // 2,
